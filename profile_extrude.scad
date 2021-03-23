@@ -22,6 +22,12 @@
  *     profile_points  The desired profile of the new shape
  *     shape_points    The polygon to extrude to the profile
  *     show_points     true/false - Show the computed points
+ *
+ * Bug-fix history:
+ *   2021-03-23 14:24  WMays287 
+ *     Code didn't work for shape_points[] with more than 4 elements.
+ *     It's been corrected (replaced the number 4 with shape_len in
+ *     lines 74, 80, 81, 82, and 83)
  */
 
 // Test model, showcasing support for concave profiles
@@ -33,7 +39,7 @@ profile_extrude(
     shape_points = [
         [-1, -1], [-1, 1], [1, 1], [1, -1]
     ],
-    show_points = true
+    show_points = false
 );
 
 module profile_extrude(profile_points, shape_points, show_points = true) {
@@ -65,16 +71,16 @@ module profile_extrude(profile_points, shape_points, show_points = true) {
             [for (i = [shape_len - 1 : -1 : 0]) i],
 
             // End cap for top of extruded shape
-            [for (i = [0 : 1 : shape_len - 1]) len(new_points) - 4 + i],
+            [for (i = [0 : 1 : shape_len - 1]) len(new_points) - shape_len + i],
 
             // Faces along the profile of shape
             for (j = [0 : 1 : len(profile_points) - 1])
                 for (i = [0 : 1 : shape_len - 1])
                     [
-                        j * 4 +              i,
-                        j * 4 +             (i + 1) % shape_len,
-                        j * 4 + shape_len + (i + 1) % shape_len,
-                        j * 4 + shape_len +  i
+                        j * shape_len +              i,
+                        j * shape_len +             (i + 1) % shape_len,
+                        j * shape_len + shape_len + (i + 1) % shape_len,
+                        j * shape_len + shape_len +  i
                     ]
             
         ]

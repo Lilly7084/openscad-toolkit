@@ -28,6 +28,11 @@
  *     Code didn't work for shape_points[] with more than 4 elements.
  *     It's been corrected (replaced the number 4 with shape_len in
  *     lines 74, 80, 81, 82, and 83)
+ *   2021-03-23 16:44  WMays287
+ *     Received a bug report about non-existent points and degenerate
+ *     polygons in the test model. Found out I was accidentally over-
+ *     scanning the point set, and luckily this was a quick fix.
+ *     (change a single number in line 77 from 1 to 2)
  */
 
 // Test model, showcasing support for concave profiles
@@ -74,7 +79,7 @@ module profile_extrude(profile_points, shape_points, show_points = true) {
             [for (i = [0 : 1 : shape_len - 1]) len(new_points) - shape_len + i],
 
             // Faces along the profile of shape
-            for (j = [0 : 1 : len(profile_points) - 1])
+            for (j = [0 : 1 : len(profile_points) - 2])
                 for (i = [0 : 1 : shape_len - 1])
                     [
                         j * shape_len +              i,

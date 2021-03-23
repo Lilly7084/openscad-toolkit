@@ -4,7 +4,7 @@
  * # # #   # # #     #  #  # # # # #       # # # #    #
  * ##  ### ### ### ##   #  ### # # ###   ##  ### #    #
  *
- * Graphical toolkit module - profile_extrude() - version 1.0
+ * Graphical toolkit module - profile_extrude() - version 1.2
  *
  * Functionally equivalent to
  * ` rotate_extrude(angle = 360)
